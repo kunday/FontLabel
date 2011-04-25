@@ -343,6 +343,7 @@ static id getValueOrDefaultForRun(ZAttributeRun *run, NSString *key) {
 							 [UIColor blackColor], ZForegroundColorAttributeName,
 							 [UIColor clearColor], ZBackgroundColorAttributeName,
 							 [NSNumber numberWithInt:ZUnderlineStyleNone], ZUnderlineStyleAttributeName,
+                             [NSNumber numberWithInt:ZUnderlineStyleNone],  ZStrikeThroughStyleAttributeName,
 							 nil];
 		}
 		value = [defaultValues objectForKey:key];
@@ -694,6 +695,11 @@ static CGSize drawOrSizeTextConstrainedToSize(BOOL performDraw, NSString *string
 							// we only support single for the time being
 							UIRectFill(CGRectMake(drawPoint.x, drawPoint.y + lineAscender, fragmentWidth, 1));
 						}
+                        NSNumber *strikeThroughStyle = getValueOrDefaultForRun(currentRun, ZStrikeThroughStyleAttributeName);
+                        if([strikeThroughStyle integerValue]) {
+                            UIRectFill(CGRectMake(drawPoint.x, drawPoint.y - currentFont.xHeight / 2 + lineAscender, fragmentWidth, 2));
+						}
+
 						drawPoint.x += fragmentWidth;
 						glyphIdx += numGlyphs;
 					}
